@@ -9,5 +9,10 @@ public class Dosen extends Person{
     }
     
     public Dosen() {
+        
+    }
+    
+    public Dosen(String p){
+        this.Password = p;
     }
 }
