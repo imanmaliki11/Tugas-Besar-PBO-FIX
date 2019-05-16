@@ -12,7 +12,7 @@ public class Dosen extends Person{
         
     }
     
-    public Dosen(String p){
-        this.Password = p;
+    public Dosen(String a){
+        this.Password = a;
     }
 }
