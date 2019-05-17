@@ -1,4 +1,12 @@
 package presensi;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class MenuDosen extends javax.swing.JFrame {
     
     Dosen ODosen = new Dosen();
@@ -6,6 +14,98 @@ public class MenuDosen extends javax.swing.JFrame {
     public void setDosen(Dosen dosen) {
         this.ODosen = dosen;
     }
+    
+    private void isiKolomTabelDataMahasiswa() {
+        DefaultTableModel mhsTabel = new DefaultTableModel();
+        mhsTabel.addColumn("KODE");
+        mhsTabel.addColumn("NIM");
+        mhsTabel.addColumn("SAKIT/IZIN");
+        mhsTabel.addColumn("ABSEN");
+        mhsTabel.addColumn("KETERANGAN");
+        TabelDataMahasiswa.setModel(mhsTabel);
+    }
+    
+    private void isiKolomTabelDataMahasiswa(int x) {
+        DefaultTableModel mhsTabel = new DefaultTableModel();
+        mhsTabel.addColumn("KODE");
+        mhsTabel.addColumn("NIM");
+        mhsTabel.addColumn("SAKIT/IZIN");
+        mhsTabel.addColumn("ABSEN");
+        mhsTabel.addColumn("KETERANGAN");
+        
+        try {
+            Connection DB = koneksi.getConection();
+            Statement st = DB.createStatement();
+            ResultSet rst = st.executeQuery("select * from data_kehadiran where KodeMK = '" + getKodeKelasDataMahasiswa.getText() + "'");
+            if(rst.next()) {
+            while(rst.next()) {
+                mhsTabel.addRow(new Object[]{rst.getString(2), rst.getString(3), 
+                    rst.getString(4), rst.getString(5), rst.getString(6)});
+            }
+                TabelDataMahasiswa.setModel(mhsTabel);
+            } else {
+                JOptionPane.showMessageDialog(null, "Data Kosong", "Kosong", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void isiKolomTabelCariMahasiswa() {
+        DefaultTableModel mhsTabel = new DefaultTableModel();
+        mhsTabel.addColumn("KODE");
+        mhsTabel.addColumn("NIM");
+        mhsTabel.addColumn("SAKIT/IZIN");
+        mhsTabel.addColumn("ABSEN");
+        mhsTabel.addColumn("KETERANGAN");
+        TabelCariMahasiswa.setModel(mhsTabel);
+    }
+    
+    private void isiKolomTabelCariMahasiswa(int x) {
+        DefaultTableModel mhsTabel = new DefaultTableModel();
+        mhsTabel.addColumn("KODE");
+        mhsTabel.addColumn("NIM");
+        mhsTabel.addColumn("SAKIT/IZIN");
+        mhsTabel.addColumn("ABSEN");
+        mhsTabel.addColumn("KETERANGAN");
+        
+        try {
+            Connection DB = koneksi.getConection();
+            Statement st = DB.createStatement();
+            ResultSet rst = st.executeQuery("select * from data_kehadiran where KodeNIM = '" + getNIMcariMahasiswa.getText() + "'");
+            if(rst.next()) {
+            do {
+                mhsTabel.addRow(new Object[]{rst.getString(2), rst.getString(3), 
+                    rst.getString(4), rst.getString(5), rst.getString(6)});
+            } while(rst.next());
+            TabelCariMahasiswa.setModel(mhsTabel);
+            } else {
+                TabelCariMahasiswa.setModel(mhsTabel);
+                JOptionPane.showMessageDialog(null, "NIM tidak ditemukan", "Gagal", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void isiTabelKelas(){
+        DefaultTableModel mhsTabel = new DefaultTableModel();
+        mhsTabel.addColumn("Kode");
+        mhsTabel.addColumn("Nama");
+        mhsTabel.addColumn("Dosen");
+        try {
+            Connection DB = koneksi.getConection();
+            Statement st = DB.createStatement();
+            ResultSet rst = st.executeQuery("select * from kelas where NIPDosen_kelas = '" + ODosen.Kode + "'");
+            while(rst.next()) {
+                mhsTabel.addRow(new Object[]{rst.getString(1), rst.getString(3), rst.getString(2)});
+            }
+            TabelTampilKelas.setModel(mhsTabel);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }  
+    }
+    
     
     public MenuDosen(Dosen D) {
         ODosen = D;
@@ -29,7 +129,7 @@ public class MenuDosen extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         PanelUtama = new javax.swing.JPanel();
@@ -199,11 +299,11 @@ public class MenuDosen extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TabelTampilKelas);
 
         PanelTampilKelas.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 150, 390, 250);
+        jScrollPane1.setBounds(20, 150, 490, 250);
 
         lbl.setIcon(new javax.swing.ImageIcon("D:\\SO\\BGPctr.jpg")); // NOI18N
         PanelTampilKelas.add(lbl);
-        lbl.setBounds(0, 0, 810, 500);
+        lbl.setBounds(0, 0, 610, 500);
 
         PanelUtama.add(PanelTampilKelas);
         PanelTampilKelas.setBounds(150, 0, 804, 500);
@@ -218,13 +318,18 @@ public class MenuDosen extends javax.swing.JFrame {
         TextNamaKelas.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         TextNamaKelas.setText("Kode Kelas");
         PanelDataMahsiswa.add(TextNamaKelas);
-        TextNamaKelas.setBounds(130, 80, 70, 20);
+        TextNamaKelas.setBounds(130, 80, 70, 30);
         PanelDataMahsiswa.add(getKodeKelasDataMahasiswa);
-        getKodeKelasDataMahasiswa.setBounds(230, 80, 170, 20);
+        getKodeKelasDataMahasiswa.setBounds(230, 80, 170, 30);
 
         tombolKodeKelasinDataMahasiswa.setText("GO");
+        tombolKodeKelasinDataMahasiswa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tombolKodeKelasinDataMahasiswaActionPerformed(evt);
+            }
+        });
         PanelDataMahsiswa.add(tombolKodeKelasinDataMahasiswa);
-        tombolKodeKelasinDataMahasiswa.setBounds(420, 80, 50, 23);
+        tombolKodeKelasinDataMahasiswa.setBounds(420, 80, 50, 30);
 
         TabelDataMahasiswa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -259,13 +364,18 @@ public class MenuDosen extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel1.setText("NIM");
         PanelCariMahasiswa.add(jLabel1);
-        jLabel1.setBounds(130, 100, 24, 20);
+        jLabel1.setBounds(130, 100, 24, 30);
         PanelCariMahasiswa.add(getNIMcariMahasiswa);
-        getNIMcariMahasiswa.setBounds(180, 100, 190, 20);
+        getNIMcariMahasiswa.setBounds(180, 100, 190, 30);
 
         TombolNiminCariMahasiswa.setText("GO");
+        TombolNiminCariMahasiswa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TombolNiminCariMahasiswaActionPerformed(evt);
+            }
+        });
         PanelCariMahasiswa.add(TombolNiminCariMahasiswa);
-        TombolNiminCariMahasiswa.setBounds(400, 100, 50, 23);
+        TombolNiminCariMahasiswa.setBounds(400, 100, 50, 30);
 
         TabelCariMahasiswa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -302,36 +412,73 @@ public class MenuDosen extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void tombolKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolKeluarActionPerformed
+    private void tombolKeluarActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_tombolKeluarActionPerformed
+    }                                            
 
-    private void tombolTampilKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolTampilKelasActionPerformed
+    private void tombolTampilKelasActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         // TODO add your handling code here:
+        isiTabelKelas();
         PanelSelamatDatang.setVisible(false);
         PanelTampilKelas.setVisible(true);
         PanelDataMahsiswa.setVisible(false);
         PanelCariMahasiswa.setVisible(false);
-    }//GEN-LAST:event_tombolTampilKelasActionPerformed
+    }                                                 
 
-    private void tombolDataMahasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolDataMahasiswaActionPerformed
+    private void tombolDataMahasiswaActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         // TODO add your handling code here:
+        isiKolomTabelDataMahasiswa();
         PanelSelamatDatang.setVisible(false);
         PanelTampilKelas.setVisible(false);
         PanelDataMahsiswa.setVisible(true);
         PanelCariMahasiswa.setVisible(false);
-    }//GEN-LAST:event_tombolDataMahasiswaActionPerformed
+    }                                                   
 
-    private void tombolCariMahasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolCariMahasiswaActionPerformed
+    private void tombolCariMahasiswaActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         // TODO add your handling code here:
+        isiKolomTabelCariMahasiswa();
         PanelSelamatDatang.setVisible(false);
         PanelTampilKelas.setVisible(false);
         PanelDataMahsiswa.setVisible(false);
         PanelCariMahasiswa.setVisible(true);
-    }//GEN-LAST:event_tombolCariMahasiswaActionPerformed
+    }                                                   
+
+    private void tombolKodeKelasinDataMahasiswaActionPerformed(java.awt.event.ActionEvent evt) {                                                               
+        // TODO add your handling code here:
+        //isiKolomTabelDataMahasiswa(1);
+        DefaultTableModel mhsTabel = new DefaultTableModel();
+        mhsTabel.addColumn("KODE");
+        mhsTabel.addColumn("NIM");
+        mhsTabel.addColumn("SAKIT/IZIN");
+        mhsTabel.addColumn("ABSEN");
+        mhsTabel.addColumn("KETERANGAN");
+        
+        try {
+            Connection DB = koneksi.getConection();
+            Statement st = DB.createStatement();
+            ResultSet rst = st.executeQuery("select * from data_kehadiran where KodeMK = '" + getKodeKelasDataMahasiswa.getText() + "'");
+            if(rst.next()) {
+            do {
+                mhsTabel.addRow(new Object[]{rst.getString(2), rst.getString(3), 
+                    rst.getString(4), rst.getString(5), rst.getString(6)});
+            } while(rst.next());
+                TabelDataMahasiswa.setModel(mhsTabel);
+            } else {
+                TabelDataMahasiswa.setModel(mhsTabel);
+                JOptionPane.showMessageDialog(null, "Data Kosong", "Kosong", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }                                                              
+
+    private void TombolNiminCariMahasiswaActionPerformed(java.awt.event.ActionEvent evt) {                                                         
+        // TODO add your handling code here:
+        isiKolomTabelCariMahasiswa(1);
+    }                                                        
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -363,7 +510,7 @@ public class MenuDosen extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JLabel BgSelamatDatang;
     private javax.swing.JLabel LabelCariMahasiswa;
     private javax.swing.JLabel LabelCariMhstext;
@@ -396,5 +543,6 @@ public class MenuDosen extends javax.swing.JFrame {
     private javax.swing.JButton tombolKeluar;
     private javax.swing.JButton tombolKodeKelasinDataMahasiswa;
     private javax.swing.JButton tombolTampilKelas;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
+
 }
