@@ -1682,7 +1682,7 @@ public class MenuAdmin extends javax.swing.JFrame {
         }
         isiTabelMhs();
         TabelTambahMhs.setModel(tab);
-    }                                                  
+    }                                                                                 
 
     private void tombolTambahMhsActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
