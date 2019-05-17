@@ -22,12 +22,13 @@ public class Login extends javax.swing.JFrame {
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         PabelLogin = new javax.swing.JPanel();
         Password = new javax.swing.JLabel();
         getUsername = new javax.swing.JTextField();
+        tombolKeluar = new javax.swing.JButton();
         getPassword = new javax.swing.JPasswordField();
         Username = new javax.swing.JLabel();
         tombolLogin = new java.awt.Button();
@@ -54,6 +55,17 @@ public class Login extends javax.swing.JFrame {
         });
         PabelLogin.add(getUsername);
         getUsername.setBounds(150, 150, 200, 30);
+
+        tombolKeluar.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        tombolKeluar.setText("Keluar");
+        tombolKeluar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tombolKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tombolKeluarActionPerformed(evt);
+            }
+        });
+        PabelLogin.add(tombolKeluar);
+        tombolKeluar.setBounds(70, 280, 80, 30);
         PabelLogin.add(getPassword);
         getPassword.setBounds(150, 200, 200, 30);
 
@@ -70,7 +82,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
         PabelLogin.add(tombolLogin);
-        tombolLogin.setBounds(150, 290, 120, 30);
+        tombolLogin.setBounds(230, 280, 120, 30);
         tombolLogin.getAccessibleContext().setAccessibleName("button1");
 
         BGGunung.setIcon(new javax.swing.ImageIcon("C:\\Users\\asus\\Downloads\\BGLogin.jpg")); // NOI18N
@@ -106,13 +118,13 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void getUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getUsernameActionPerformed
+    private void getUsernameActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
-    }//GEN-LAST:event_getUsernameActionPerformed
+    }                                           
 
-    private void tombolLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolLoginActionPerformed
+    private void tombolLoginActionPerformed(java.awt.event.ActionEvent evt) {                                            
         if(getUsername.getText().equals("admin")){
             if(getPassword.getText().equals("admin123")) {
                JOptionPane.showMessageDialog(null, "Anda Berhasil Login", "Sukses", JOptionPane.NO_OPTION);
@@ -155,13 +167,14 @@ public class Login extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            //JOptionPane.showMessageDialog(null, "Anda Gagal Login", "Gagal", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_tombolLoginActionPerformed
+    }                                           
 
-    /**
-     * @param args the command line arguments
-     */
+    private void tombolKeluarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        // TODO add your handling code here:
+        System.exit(0);
+    }                                            
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -194,7 +207,7 @@ public class Login extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JLabel BGGunung;
     private javax.swing.JPanel PabelLogin;
     private javax.swing.JLabel Password;
@@ -202,6 +215,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField getPassword;
     private javax.swing.JTextField getUsername;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton tombolKeluar;
     private java.awt.Button tombolLogin;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
